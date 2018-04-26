@@ -30,17 +30,12 @@ public class Main {
     call.enqueue(new Callback<PokemonFeed>() {
       @Override
       public void onResponse(Call<PokemonFeed> call, Response<PokemonFeed> response) {
-        switch (response.code()) {
-          case 200:
-            PokemonFeed data = response.body();
-            System.out.println(data.getResults());
-            break;
-          case 401:
-
-            break;
-          default:
-
-            break;
+        if (response.code() == 200) {
+          PokemonFeed data = response.body();
+          System.out.println(data.getResults());
+          
+        } else {
+          onFailure(call, new Exception("responseCode = " + response.code()));
         }
       }
 
