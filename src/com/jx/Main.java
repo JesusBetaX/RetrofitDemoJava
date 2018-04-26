@@ -10,7 +10,12 @@ import retrofit2.Response;
 public class Main {
 
   
-  private void loadJSON() {
+  /**
+   * Asynchronously send the request and notify callback of its response or if 
+   * an error occurred talking to the server, creating the request, or processing 
+   * the response.
+   */
+  private void loadJSONAsynchronously() {
     PokemonFeedDao dao = WebService.getDao(PokemonFeedDao.class);
     Call<PokemonFeed> call = dao.getData();
 
@@ -50,10 +55,36 @@ public class Main {
       }
     });
   }
+  
+  /**
+   * Synchronously send the request and return its response.
+   */
+  public void loadJSONSynchronously() {
+    PokemonFeedDao dao = WebService.getDao(PokemonFeedDao.class);
+    Call<PokemonFeed> call = dao.getData();
+    
+    try {
+      /*
+       * Envíe sincrónicamente la solicitud y devuelva su respuesta.
+       */
+      Response<PokemonFeed> response = call.execute();
+      
+      if (response.code() == 200) {
+        PokemonFeed data = response.body();
+        System.out.println(data.getResults());
+
+      } else {
+        throw new Exception("responseCode = " + response.code());
+      }
+      
+    } catch (Exception ex) {
+      ex.printStackTrace(System.out);
+    }
+  }
 
   public static void main(String[] args) {
     Main obj = new Main();
-    obj.loadJSON();
+    obj.loadJSONSynchronously();
     //obj.loadJSON();
   }
 }
