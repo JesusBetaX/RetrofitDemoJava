@@ -1,3 +1,5 @@
+package com.jx.model;
+
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,3 +1,5 @@
+package com.jx.model;
+
 
 class Result {
 
